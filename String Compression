@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compress(char* chars, int charsSize) {
+    int write = 0; 
+    int read = 0;    
+    
+    while (read < charsSize) {
+        char currentChar = chars[read]; 
+        int start = read;  
+    
+        while (read < charsSize && chars[read] == currentChar) {
+            read++;
+        }
+        
+        int count = read - start;
+        chars[write++] = currentChar;
+
+        if (count > 1) {
+            char countStr[10];
+            sprintf(countStr, "%d", count); // Convert the count to a string
+           
+            for (int i = 0; countStr[i] != '\0'; i++) {
+                chars[write++] = countStr[i];
+            }
+        }
+    }
+    
+    return write; // The new length of the compressed array
+}
+
+int main() {
+    char chars[] = {'a', 'a', 'b', 'b' , 'b' , 'c', 'c'};
+    int charsSize = sizeof(chars) / sizeof(chars[0]);
+    
+    int newLength = compress(chars, charsSize);
+    
+    printf("Compressed characters: ");
+    for (int i = 0; i < newLength; i++) {
+        printf("%c", chars[i]);
+    }
+    printf("\n");
+    
+    printf("New length: %d\n", newLength);
+    
+    return 0;
+}
